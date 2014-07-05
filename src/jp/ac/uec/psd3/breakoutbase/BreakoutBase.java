@@ -27,6 +27,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -43,7 +45,7 @@ import javax.swing.JPanel;
  * @author K.Lucky
  *
  */
-public class BreakoutBase extends JPanel implements ActionListener
+public class BreakoutBase extends JPanel implements ActionListener , KeyListener
 {
 	private static final long serialVersionUID = 1L;
 
@@ -97,7 +99,7 @@ public class BreakoutBase extends JPanel implements ActionListener
 		ballSize = imgBall.getWidth();
 
 		this.setBackground( new Color( 115, 99, 87 ) );
-
+       frame.addKeyListener(this);
 		// ゲーム情報の初期化
 		startGame();
 
@@ -187,9 +189,9 @@ public class BreakoutBase extends JPanel implements ActionListener
 
 		// ゲームオーバー画面注なら何もしない
 		if ( gameStat == 2 && chk == 0 )
-		{
-			scoreDialog sd = new scoreDialog();
-			sd.showMessageDialog(getRootPane(), null);
+		{ 
+			scoreDialog sd = new scoreDialog(this.score);
+			gameStat=0;
 			return;
 		}
 
@@ -514,6 +516,46 @@ public class BreakoutBase extends JPanel implements ActionListener
 				createFrame();
 			}
 		} );
+	}
+	@Override
+	public void keyPressed(KeyEvent e){
+		System.out.printf("keyPressed");
+			if(KeyEvent.VK_RIGHT==e.getKeyCode()){
+				this.racket.x+=1;
+			}
+			if(KeyEvent.VK_LEFT==e.getKeyCode()){
+				this.racket.x-=1;
+			}
+			if(KeyEvent.VK_SPACE==e.getKeyCode()){
+				System.out.printf("SpacePressed");
+				if ( gameStat == 2  )
+				{
+					startGame();		// ゲーム初期化
+					gameStat = 0;
+				}
+				if ( gameStat == 0) // ボールが発射前で、マウスボタンが押されたら発射
+				{
+					gameStat = 1;
+					// ボールの移動方向設定
+					double d = 45.0; // 角度の指定
+					ballDirectionX = (int) (movement * Math.cos( d * Math.PI / 180 ));
+					ballDirectionY = (int) (-movement * Math.sin( d * Math.PI / 180 ));
+//					s0.play();
+				}
+			}
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
