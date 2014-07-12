@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 
 public class scoreDialog extends JOptionPane {
 int newScore;
-ArrayList scores = new ArrayList();
+ArrayList<Integer> scores = new ArrayList();
 	public scoreDialog() {
 		// TODO �����������ꂽ�R���X�g���N�^�[�E�X�^�u
 	}
@@ -46,9 +46,12 @@ ArrayList scores = new ArrayList();
 	}
 	public scoreDialog(int newScore){
 		super();
+		newScore = newScore;
 		this.readFile();
-		scores.add(newScore);
 		this.writeFile();
+		scores.add(Integer.valueOf(newScore));
+		Collections.sort(scores);
+		Collections.reverse(scores);
 		this.showMessageDialog(getRootPane(),scores);
 	}
 	public void readFile(){
@@ -63,6 +66,7 @@ ArrayList scores = new ArrayList();
 				line = bf.readLine();
 			}
 			bf.close();
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
