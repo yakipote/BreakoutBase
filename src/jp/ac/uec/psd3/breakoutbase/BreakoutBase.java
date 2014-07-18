@@ -190,7 +190,8 @@ public class BreakoutBase extends JPanel implements ActionListener , KeyListener
 		// ゲームオーバー画面注なら何もしない
 		if ( gameStat == 2 && chk == 0 )
 		{ 
-			scoreDialog sd = new scoreDialog(this.score);
+			//scoreDialog sd = new scoreDialog(this.score);
+			rankDialog rd = new rankDialog(this.score);
 			gameStat=0;
 			return;
 		}
